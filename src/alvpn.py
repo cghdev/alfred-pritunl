@@ -9,7 +9,7 @@ from workflow import Workflow, ICON_ERROR, ICON_WARNING
 from subprocess import Popen, PIPE, check_output
 import os
 
-ICON_CONNECTED = 'icons/locked2.png'
+ICON_CONNECTED = 'icons/locked.png'
 ICON_DISCONNECTED = 'icons/unlocked.png'
 ICON_CONNECTING = 'icons/unlocked2.png'
 ICON_ISSUE = 'icons/issue.png'
