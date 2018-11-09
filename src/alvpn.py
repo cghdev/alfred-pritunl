@@ -6,6 +6,7 @@ import argparse
 import json
 import sys
 from workflow import Workflow3, ICON_ERROR, ICON_WARNING
+from workflow.notify import notify
 from subprocess import Popen, PIPE, check_output
 import os
 
@@ -99,7 +100,7 @@ def disconnect(pt, id):
         pt.disconnectProfile(profile(pt, id))
 
 def connect(pt, id):
-    _, _, auth = pt.getProfile(profile(pt, id))
+    conf, _, auth = pt.getProfile(profile(pt, id))
     user = None
     password = None
     if auth:
@@ -115,7 +116,8 @@ def connect(pt, id):
         if user and not password and auth == 'creds':
             password = popup("Enter the password: ", True)
         
-    pt.connectProfile(profile(pt, id), user=user, password=password) 
+    pt.connectProfile(profile(pt, id), user=user, password=password)
+    notify('Connecting to "{}"'.format(conf['name']))
 
 def popup(msg, pwd=False):
     if msg:
