@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import requests
 import base64
 import os
 import platform
@@ -8,6 +7,7 @@ import glob
 import json
 import getpass
 import subprocess
+import urllib2
 
 class PYtunl:
     def __init__(self):
@@ -48,19 +48,20 @@ class PYtunl:
         return None
 
     def makeReq(self, verb='GET', endpoint=None, data={}):
-        URL = 'http://{}/{}'.format(self.serviceSck, endpoint)
-        headers = {'Auth-Key': self.authKey, 'User-Agent': 'pritunl'}
+        URL = 'http://{}/{}'.format(self.serviceSck, endpoint) # we use urllib2 to make it a bit faster when it loads the modules
+        headers = {'Auth-Key': self.authKey, 'User-Agent': 'pritunl', 'Content-Type':' application/json'}
         try:
-            if verb == 'GET':
-                res = requests.get(URL, headers=headers)
-            elif verb == 'POST':
-                res = requests.post(URL, headers=headers, json=data)
-            else:
-                res = requests.delete(URL, headers=headers, json=data)
+            req = urllib2.Request(URL, data=json.dumps(data), headers=headers)
+            req.get_method = lambda: verb
+            try:
+                status = 200
+                res = urllib2.urlopen(req).read()
+            except urllib2.HTTPError as e:
+                status = e.code
 
-            if res.status_code != 200:
+            if status != 200:
                 raise Exception("Status code returned: {}".format(res.status_code))
-            return res.text
+            return res
         except Exception as err:
             return None
 
