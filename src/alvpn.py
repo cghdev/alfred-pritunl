@@ -5,7 +5,7 @@ from pytunl import PYtunl
 import argparse
 import json
 import sys
-from workflow import Workflow, ICON_ERROR, ICON_WARNING
+from workflow import Workflow3, ICON_ERROR, ICON_WARNING
 from subprocess import Popen, PIPE, check_output
 import os
 
@@ -80,6 +80,8 @@ def listConnections(pt, search=None):
             status = cons[p]['status'].capitalize()
         if not search or search.lower() in pt.profiles[p]['name'].lower():
             profs.append([pt.profiles[p]['id'], pt.profiles[p]['name'], status])
+        if status == 'Connecting':
+            wf.rerun = 1
     c = []
     for p in profs:
         c.append({'id':p[0], 'name': p[1], 'status': p[2]})
@@ -125,5 +127,5 @@ def popup(msg, pwd=False):
             return p[2].strip()
 
 if __name__ == u"__main__":
-    wf = Workflow()
+    wf = Workflow3()
     sys.exit(wf.run(main))
