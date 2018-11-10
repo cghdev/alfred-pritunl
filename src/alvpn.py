@@ -45,7 +45,7 @@ def main(wf):
             if c['status'] == 'Connected':
                 ic = ICON_CONNECTED
                 action = '--disconnect {}'.format(c['id'])
-                sub = u'↩ to disconnect'
+                sub = u'↩ to disconnect, ⌘ for details'
             elif c['status'] == 'Disconnected':
                 ic = ICON_DISCONNECTED
                 action = '--connect {}'.format(c['id'])
