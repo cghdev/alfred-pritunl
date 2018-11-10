@@ -76,17 +76,23 @@ def listConnections(pt, search=None):
     profs = []
     cons = pt.getConnections()
     for p in pt.profiles:
-        status = 'Disconnected'
+        d = {}
+        d['status'] = 'Disconnected'
+        d['client_addr'] = None
+        d['server_addr'] = None
+        d['timestamp'] = None
         if p in cons:
-            status = cons[p]['status'].capitalize()
+            d['status'] = cons[p]['status'].capitalize()
+            d['server_addr'] = cons[p]['server_addr']
+            d['client_addr'] = cons[p]['client_addr']
+            d['timestamp'] = cons[p]['timestamp']
         if not search or search.lower() in pt.profiles[p]['name'].lower():
-            profs.append([pt.profiles[p]['id'], pt.profiles[p]['name'], status])
-        if status == 'Connecting':
+            d['id'] = pt.profiles[p]['id']
+            d['name'] = pt.profiles[p]['name']
+            profs.append(d)
+        if d['status'] == 'Connecting':
             wf.rerun = 1
-    c = []
-    for p in profs:
-        c.append({'id':p[0], 'name': p[1], 'status': p[2]})
-    return c
+    return profs
 
 def profile(pt, id):
     for p in pt.profiles:
@@ -104,7 +110,6 @@ def connect(pt, id):
     user = None
     password = None
     if auth:
-        print auth
         if 'pin' in auth:
             user = 'pritunl'
             if not password:
