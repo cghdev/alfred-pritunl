@@ -9,6 +9,8 @@ from workflow import Workflow3, ICON_ERROR, ICON_WARNING
 from workflow.notify import notify
 from subprocess import Popen, PIPE, check_output
 import os
+from time import time
+from datetime import datetime, timedelta
 
 ICON_CONNECTED = 'icons/locked.png'
 ICON_DISCONNECTED = 'icons/unlocked.png'
@@ -53,11 +55,21 @@ def main(wf):
                 action = '--disconnect {}'.format(c['id'])
                 sub = u'Connecting... ↩ to cancel'
 
-            wf.add_item(title=c['name'],
+            it = wf.add_item(title=c['name'],
                         subtitle=sub,
                         arg=action,
                         valid=True,
                         icon=ic)
+            if c['status'] == 'Connected':
+                sec = timedelta(seconds=(int(time()) - c['timestamp']))
+                since = ''
+                d = datetime(1,1,1) + sec
+                since += str(d.day-1) + ' days ' if d.day-1 else ''
+                since += str(d.hour) + ' hrs ' if d.hour else ''
+                since += str(d.minute) + ' mins ' if d.minute else ''
+                since += str(d.second) + ' secs' if d.second else ''
+                sub = 'Server: {} | Client: {} | {}'.format(c['server_addr'], c['client_addr'], since)
+                m = it.add_modifier('cmd', subtitle=sub, valid=False)
         if not cons:
             wf.add_item(title=u'No matching connections ¯\_(ツ)_/¯',
             icon=ICON_WARNING)
