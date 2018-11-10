@@ -118,7 +118,8 @@ def disconnect(pt, id):
         pt.disconnectProfile(profile(pt, id))
 
 def connect(pt, id):
-    conf, _, auth = pt.getProfile(profile(pt, id))
+    prof = profile(pt, id)
+    _, auth = pt.getProfile(prof)
     user = None
     password = None
     if auth:
@@ -134,7 +135,7 @@ def connect(pt, id):
             password = popup("Enter the password: ", True)
         
     pt.connectProfile(profile(pt, id), user=user, password=password)
-    notify('Connecting to "{}"'.format(conf['name']))
+    notify('Connecting to "{}"'.format(pt.profiles[prof]['name']))
 
 def popup(msg, pwd=False):
     if msg:

@@ -99,21 +99,22 @@ class PYtunl:
         for f in files:
             profile = os.path.basename(f).split('.')[0]
             data = json.loads(open(f,'r').read())
-            self.profiles[profile] = {'path': f, 'name': data['name'], 'id': c}
+            if not data['name']:
+                data['name'] = '{} ({})'.format(data['user'], data['server'])
+            self.profiles[profile] = {'path': f, 'id': c}
+            self.profiles[profile].update(data) # keep the whole config file to use later, instead of reading the file again.
             c += 1
 
     def getProfile(self, id):
         profile = self.profiles[id]
         auth = None
-        confFile = profile['path']
         ovpnFile = profile['path'].replace('.conf','.ovpn')
-        conf = json.loads(open(confFile, 'r').read())
         ovpn = open(ovpnFile, 'r').read()
         for l in ovpn.split('\n'):
             if 'auth-user-pass' in l and len(l) <= 17: # check if it needs credentials and they are not provided as parameter
                 auth = 'creds'
-        if 'password_mode' in conf and conf['password_mode']:
-            auth = conf['password_mode']
+        if auth and 'password_mode' in profile and profile['password_mode']:
+            auth = profile['password_mode']
         command = 'security find-generic-password -w -s pritunl -a {}'.format(id).split() # loads key material from keychain
         try:
             res = subprocess.check_output(command)
@@ -123,12 +124,12 @@ class PYtunl:
             res = None
             print("There was an error: {}".format(err))
                
-        return conf, ovpn, auth
+        return ovpn, auth
                 
 
     def connectProfile(self, id, user=None, password=None):
         data = {'id': id, 'reconnect': True, 'timeout': True}
-        conf, ovpn, auth = self.getProfile(id)
+        ovpn, auth = self.getProfile(id)
         if auth:
             if 'pin' in auth:
                 user = 'pritunl'
