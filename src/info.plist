@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>cghdev.alfred-pritunl</string>
+	<string>cghdev.alfred-pritunl-go</string>
 	<key>category</key>
 	<string>Tools</string>
 	<key>connections</key>
@@ -73,7 +73,7 @@
 				<key>runningsubtext</key>
 				<string>Listing profiles...</string>
 				<key>script</key>
-				<string>python alvpn.py --list --search "{query}"</string>
+				<string>./gotunl -l -s "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -104,7 +104,7 @@
 				<key>script</key>
 				<string>query="$@"
 
-python alvpn.py $query</string>
+./gotunl $query</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -148,7 +148,7 @@ python alvpn.py $query</string>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>python alvpn.py --disconnect all</string>
+				<string>./gotunl -d all</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>

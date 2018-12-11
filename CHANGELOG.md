@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3 (11-12-2018)
+- Rewritten the workflow in GoLang
+- Created 'python_version' branch to keep the old version
+
 ## v1.2 (10-11-2018)
 - Added rerun feature to refresh the UI every second if there's a connection with 'Connecting' status
 - Added notification when connecting
