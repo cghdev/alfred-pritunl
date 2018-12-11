@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>cghdev.alfred-pritunl-go</string>
+	<string>cghdev.alfred-pritunl</string>
 	<key>category</key>
 	<string>Tools</string>
 	<key>connections</key>
