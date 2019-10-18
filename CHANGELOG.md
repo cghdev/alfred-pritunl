@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.4 (18-10-2019)
+- Updated the main gotunl library to use unix sockets (https://github.com/pritunl/pritunl-client-electron/commit/00792956a78c3426b473fefe69982fafa2cbc5e2)
+
 ## v1.3 (11-12-2018)
 - Rewritten the workflow in GoLang
 - Created 'python_version' branch to keep the old version
