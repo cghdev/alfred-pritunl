@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cghdev/gotunl"
+	"github.com/cghdev/gotunl/pkg/gotunl"
 	aw "github.com/deanishe/awgo"
 	"github.com/tidwall/gjson"
 )
