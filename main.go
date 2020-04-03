@@ -24,7 +24,7 @@ var (
 	iconIssue        = &aw.Icon{Value: "icons/issue.png"}
 	iconDisconnect   = &aw.Icon{Value: "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarDeleteIcon.icns"}
 )
-var version = "1.4.0"
+var version = "1.4.1"
 var wf *aw.Workflow
 
 type connections struct {
